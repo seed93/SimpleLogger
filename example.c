@@ -9,6 +9,6 @@ int main()
     LOG(_INFO_, "testing");
     LOG(_ERROR_, "testing");
     LOG(_FATAL_, "testing");
-    simplog.writeStackTrace();
+    STACKTRACE();
     return 0;
 }

@@ -5,11 +5,14 @@
 A basic, easy to use logger for output of messages at various logging levels
 with date/time stamp to standard out and a defined log file.
 
-![Example Screenshot](http://i.imgur.com/1aMpk6I.png)
+This project has been modified by seed93.
+
+![Example Screenshot](http://chuantu.biz/t/68/1426834089x-954497711.png)
 
 ##Features
 
 * Time/date stamped output
+* File and line number output
 * Console output is colored according to the level of the log message
 * Error levels automatically print errno if it has been set
 * Variable length argument list
@@ -25,27 +28,11 @@ user an easiear to read trace
 
 ##Building with SimpleLogger
 
-First be sure to compile `libsimplog.a`:
+Include `simplog.h` in your project files, and please refer to `example.c`:
 ```
-make
+#include "simplog.h"
 ```
-This will run CMake in a `build` subdirectory, and execute the generated makefile(s) there.
-The resultant `libsimplog.a` will then be copied to the root SimpleLogger directory.
-
-When building your project, you need to add the SimpleLogger directory in your build path:
-```
--I <path-to-SimpleLogger-dir>
-```
-
-You also need to link against `libsimplog.a`:
-```
--L <path-to-SimpleLogger-dir> -lsimplog
-```
-
-Finally, just include `simplog.h` in your project files:
-```
-#include <simplog.h>
-```
+Run `make` to build an example.
 
 You're all set!  Check out the Usage section below for how to use SimpleLogger in your program.
 
@@ -53,32 +40,32 @@ You're all set!  Check out the Usage section below for how to use SimpleLogger i
 
 Each message must be accompanied by a level. Supported levels are:
 ```
-SIMPLOG_FATAL   = -2 : A fatal error has occured, the program will exit immediately
-SIMPLOG_ERROR   = -1 : An error has occured, the program may not exit
-SIMPLOG_INFO    = 0  : Nessessary information regarding program operation
-SIMPLOG_WARN    = 1  : Any circumstance that may not affect normal operation
-SIMPLOG_DEBUG   = 2  : Standard debug messages
-SIMPLOG_VERBOSE = 3  : All debug messages
+_FATAL_   = -2 : A fatal error has occured, the program will exit immediately
+_ERROR_   = -1 : An error has occured, the program may not exit
+_INFO_    = 0  : Nessessary information regarding program operation
+_WARN_    = 1  : Any circumstance that may not affect normal operation
+_DEBUG_   = 2  : Standard debug messages
+_VERBOSE_ = 3  : All debug messages
 ```
 
 Here is an example of how to create a log entry:
 ```
-simplog.writeLog( <desired_level>, "Message", <var-args> );
+LOG( <desired_level>, "Message", <var-args> );
 ```
 
 For example, to recreate part of the output in the screenshot above:
 ```
-simplog.writeLog( SIMPLOG_FATAL, "Test Fatal" );
-simplog.writeLog( SIMPLOG_ERROR, "Test Error" );
-simplog.writeLog( SIMPLOG_INFO, "Test Info" );
-simplog.writeLog( SIMPLOG_WARN, "Test Warn" );
-simplog.writeLog( SIMPLOG_DEBUG, "Test Debug" );
-simplog.writeLog( SIMPLOG_VERBOSE, "Test Verbose" );
+LOG(_VERBOSE_, "verbose");
+LOG(_DEBUG_, "testing");
+LOG(_WARN_, "testing");
+LOG(_INFO_, "testing");
+LOG(_ERROR_, "testing");
+LOG(_FATAL_, "testing");
 ```
 
 To write a stacktrace, just call:
 ```
-simplog.writeStackTrace();
+STACKTRACE();
 ```
 Stacktraces will automatically "prettyfied" to provide easier to read traces.
 
