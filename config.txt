@@ -1,0 +1,5 @@
+silent=false
+wrap=false
+flush=true
+debug=3
+logfile=default.txt

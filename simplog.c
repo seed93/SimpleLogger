@@ -471,7 +471,6 @@ void loadConfig( const char* config ) {
         // Exit function early. No log file to read.
         return;
     }
-
     // Initial buffer size for reading settings
     int SETTINGS_BUFSIZE = 1024;
     // Allocate settings buffer
@@ -486,9 +485,10 @@ void loadConfig( const char* config ) {
             settingsBuffer = (char*)realloc( (void*)settingsBuffer, SETTINGS_BUFSIZE * 2 );
         }
     }
+    // Clean errno so it's not mistakenly printed for other messages
+    errno = 0;
     // Done reading. Close the file.
     close( fd );
-
     // Line start, split, and end incices for each line read
     int startL  = 0;
     int splitL  = 0;
@@ -504,7 +504,7 @@ void loadConfig( const char* config ) {
         } else if( settingsBuffer[i] == '\n' ) {
             // Save the end index for the curren line
             endL = i;
-
+            
             // Zero buffers
             memset( var, 0, 255 );
             memset( val, 0, 255 );
@@ -512,7 +512,7 @@ void loadConfig( const char* config ) {
             // Copy variable name and value into buffers
             strncpy( var, settingsBuffer + startL, splitL - startL - 1 );
             strncpy( val, settingsBuffer + splitL, endL - splitL );
-
+            writeLog(_LOGGER_, "%s", val);
             // Parse the value if it is a boolean
             bool boolVal;
             if( strcmp( val, "true" ) == 0 ) {
@@ -538,7 +538,6 @@ void loadConfig( const char* config ) {
             startL = i + 1;
         }
     }
-
     // Done parsing. Free setting buffer
     free( settingsBuffer );
 

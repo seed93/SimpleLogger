@@ -2,11 +2,12 @@
 
 int main()
 {
-    
-    LOG(_VERBOSE_, "verbose");
+    simplog.loadConfig("config.txt");
+    LOG(_VERBOSE_, "testing%d", 1);
     LOG(_DEBUG_, "testing");
     LOG(_WARN_, "testing");
-    LOG(_INFO_, "testing");
+    const char * temp = "testing%d";
+    LOG(_INFO_, temp, 4);
     LOG(_ERROR_, "testing");
     LOG(_FATAL_, "testing");
     STACKTRACE();

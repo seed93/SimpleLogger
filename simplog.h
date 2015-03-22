@@ -5,6 +5,10 @@
 Author: Nate Peterson
 Created: June 2013
 Last Updated: Feb 2014
+
+Author: Liang Ding
+Forked: Mar 20 2015
+Last Updated: Mar 22 2015
 */
 
 #ifndef SIMPLOG_H
@@ -15,7 +19,9 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
+#include <string.h>
 
+#define MAX_BUFFER 1000
 // Define logging levels
 #define _FATAL_   -2    // A fatal error has occured: program will exit immediately
 #define _ERROR_    -1    // An error has occured: program may not exit
@@ -26,10 +32,12 @@ extern "C" {
 
 #define LOG(log_level, log_fmt, log_arg...)\
     do{ \
-        simplog.writeLog(log_level,   "[%s:%d][%s] " log_fmt, \
+        char temp_string[MAX_BUFFER]="[%s:%d][%s] " ;\
+        simplog.writeLog(log_level,   strcat(temp_string,log_fmt), \
                      __FILE__, __LINE__, __FUNCTION__, ##log_arg); \
     } while (0) 
 
+#define STACKTRACE() simplog.writeStackTrace()
 
 // Public functions
 typedef struct {
